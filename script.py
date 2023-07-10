@@ -1,28 +1,27 @@
-import requests
-from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
-URL = "https://www.pracuj.pl/praca/programista;kw/praca%20zdalna;wm,home-office?et=17"
-page = requests.get(URL)
-
-soup = BeautifulSoup(page.content, "html.parser")
-# offer = soup.find(attrs={"data-test": "default-offer"})
-# offerPretty = offer.prettify()
-# companyName = offer.find(attrs={"data-test": "text-company-name"}).text
-# title = offer.find(attrs={"data-test": "offer-title"}).text
-
-everyOffer = soup.findAll(attrs={"data-test": "default-offer"})
-companyNames = []
-titles = []
-for offer in everyOffer:
-    companyName = offer.find(attrs={"data-test": "text-company-name"}).text
-    title = offer.find(attrs={"data-test": "offer-title"}).text
-    companyNames.append(companyName)
-    titles.append(title)
-
-print(companyNames)
-print(titles)
+technology = "JavaScript"
+driver = webdriver.Chrome()
+driver.implicitly_wait(60)
+url = f"https://it.pracuj.pl/?tt={technology}&jobBoardVersion=2"
+driver.get(url)
 
 
-# print(sectionOffers)
-# print(companyName)
-# print(title)
+def extract_text_from_elements(elements):
+    text_list = []
+    for element in elements:
+        text_list.append(element.text)
+    return text_list
+
+
+def get_job_titles():
+    job_title_xpath = '//h3[@data-test="offer-title"]'
+    elements = driver.find_elements(By.XPATH, job_title_xpath)
+    job_titles = extract_text_from_elements(elements)
+    return job_titles
+
+
+jobTitles = get_job_titles()
+print(jobTitles)
+driver.close()
