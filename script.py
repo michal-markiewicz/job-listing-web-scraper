@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 technology = "JavaScript"
 driver = webdriver.Chrome()
 driver.implicitly_wait(60)
-url = f"https://it.pracuj.pl/?tt={technology}&jobBoardVersion=2"
+url = f"https://it.pracuj.pl/?et=17&tt={technology}&jobBoardVersion=2"
 driver.get(url)
 
 
@@ -22,8 +22,22 @@ def get_company_names():
     return company_names
 
 
-jobTitles = get_job_titles()
-companyNames = get_company_names()
-print(jobTitles)
-print(companyNames)
+def get_job_offers():
+    company_names = get_company_names()
+    job_titles = get_job_titles()
+    job_offers = []
+    count = 0
+    while count < len(job_titles):
+        job_offer = {
+            "company_name": company_names[count],
+            "job_title": job_titles[count]
+        }
+        job_offers.append(job_offer)
+        count += 1
+    return job_offers
+
+
+job_offers = get_job_offers()
+print(job_offers)
+
 driver.close()
