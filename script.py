@@ -15,6 +15,15 @@ def get_job_titles():
     return job_titles
 
 
+def get_company_names():
+    company_names_xpath = '//span[@data-test="company-name"]'
+    elements = driver.find_elements(By.XPATH, company_names_xpath)
+    company_names = [element.text for element in elements]
+    return company_names
+
+
 jobTitles = get_job_titles()
+companyNames = get_company_names()
 print(jobTitles)
+print(companyNames)
 driver.close()
