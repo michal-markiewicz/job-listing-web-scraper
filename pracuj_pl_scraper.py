@@ -2,7 +2,7 @@ import math
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-technology = "JavaScript"
+technology = "TypeScript"
 driver = webdriver.Chrome()
 driver.implicitly_wait(60)
 url = f"https://it.pracuj.pl/?et=17&tt={technology}&jobBoardVersion=2"
